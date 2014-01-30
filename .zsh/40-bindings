@@ -1,0 +1,2 @@
+bindkey "5C" emacs-forward-word   #control left
+bindkey "5D" backward-word        #control right

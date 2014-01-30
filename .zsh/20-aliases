@@ -1,0 +1,98 @@
+# alias say='espeak -vgerman-mbrola-6'
+# alias r='ssh 192.168.178.25 say'
+
+# alias dir='ls -lah --color=auto'
+# alias d='dir'
+# alias grep='grep --color=auto'
+# alias grepi='grep -Iri'
+
+# alias wtf='dmesg'
+# alias dmt='dmesg | tail -n200'
+
+# alias aup='sudo apt-get update'
+# alias adist='sudo apt-get dist-upgrade'
+# alias aupdist='aup && adist'
+# alias asearch='aptitude search'
+# alias ashow='aptitude show'
+# alias ainst='sudo apt-get install'
+# alias afile='apt-file search'
+
+# alias up='ping nh2.me'
+
+# alias -g zalias='~/.zsh/20-aliases'
+# alias zresource='source ~/.zshrc'
+
+# alias nwatch='watch -n0.5'
+
+# # GLOBAL ALIASES
+# alias -g H='| head'
+# alias -g T='| tail'
+# alias -g TT='| tail -f'
+# alias -g G='| grep'
+# alias -g GI='| grep -i'
+# alias -g L="| less"
+# alias -g M="| most"
+# alias -g B="&|"
+# alias -g HL="--help"
+# alias -g LL="2>&1 | less"
+# alias -g CA="2>&1 | cat -A"
+# alias -g NE="2> /dev/null"
+# alias -g NUL="> /dev/null 2>&1"
+
+# alias de='setxkbmap de'
+# alias deno='setxkbmap de nodeadkeys'
+# alias us='setxkbmap us'
+
+# # SUDO ALIASES
+# alias uso='sudo'
+# alias ouzo='sudo'
+# alias sido='sudo'
+# alias sado='sudo'
+# alias sumo='sudo'
+
+# # GIT ALIASES
+# alias gut='git'
+
+# # WAF ALIASES
+# alias waf='$PWD/waf'
+
+# # ACK aliases
+# a='ack -A2 -B2'
+
+# # SSH ALIASES
+# alias scpresume='rsync --partial --progress'
+
+# # ENCRYPTION ALIASES
+# alias cryptmount='sudo cryptsetup luksOpen /dev/main/encrypted crypted && sudo mount /crypt'
+# alias cryptumount='sudo umount /crypt && sudo cryptsetup luksClose crypted'
+
+# replaceall DIR REGEX, e.g. replaceall . s/from/to/g
+replaceall() {
+	find "$1" -type f | xargs perl -p -i -e "$2"
+}
+
+# allfiles() {
+# 	find "$1" -type f
+# }
+
+# spaces2tabs() {
+# 	replaceall "$1" 's/    /\t/g'
+# }
+
+# tabs2spaces() {
+# 	replaceall "$1" 's/\t/    /g'
+# }
+
+# stripendwhitespace() {
+# 	replaceall "$1" 's/[ \t]*$//g'
+# }
+
+export D="`cat ~/.d`"
+alias d='cd $D'
+alias setd='echo $PWD > ~/.d && export D=$PWD'
+alias sl='sl -e'
+alias startx='cd && exec startx'
+alias matlab='matlab -display $DISPLAY'
+alias yt='youtube-dl -x -o "%(title)s.flv"'
+alias wine32='WINEPREFIX=~/.wine32 WINEARCH=win32 wine'
+alias emacs='emacsclient -c'

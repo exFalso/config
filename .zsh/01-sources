@@ -1,0 +1,12 @@
+ex_source() {
+	if [ -e "$1" ] ; then
+		source "$1"
+	fi
+}
+
+ex_source /etc/zsh_command_not_found
+
+#[[ -s $HOME/.rvm/scripts/rvm ]] && source $HOME/.rvm/scripts/rvm
+
+#ex_source $HOME/.rvm/scripts/rvm
+
