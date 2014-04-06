@@ -66,7 +66,7 @@
 May be set using .dir-locals.el. Checks each entry if set to a list.")
 
 (defvar ffip-patterns
-  '("\\\\(/[a-zA-Z0-9][a-zA-Z0-9._-]*\\\\)+")
+  '("\\\\(/[a-zA-Z0-9][a-zA-Z0-9.-]*\\\\)+")
   "List of patterns to look for with `find-file-in-project'.")
 
 (defvar ffip-find-options ""
@@ -82,7 +82,7 @@ Use this to exclude portions of your project: \"-not -regex \\\".*svn.*\\\"\".")
 
 This overrides variable `ffip-project-root' when set.")
 
-(defvar ffip-limit 9192
+(defvar ffip-limit 2048
   "Limit results to this many files.")
 
 (defvar ffip-full-paths nil
@@ -115,7 +115,7 @@ This overrides variable `ffip-project-root' when set.")
              ffip-patterns " -or "))
 
 (defvar ffip-negate-patterns
-  '(".*[.]class$" ".*[.]hi$" ".*[.]png$" ".*[.]jpg$" ".*[.]flv$" ".*[.]gif$"))
+  '(".*[.]class$" ".*[.]hi$"))
 
 (defun ffip-join-negate-patterns ()
   "Turn `ffip-paterns' into a string that `find' can use."

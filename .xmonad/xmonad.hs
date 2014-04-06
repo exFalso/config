@@ -9,7 +9,6 @@ import XMonad.Layout.NoBorders
 import XMonad.Layout.Spiral
 import XMonad.Hooks.SetWMName
 import qualified XMonad.StackSet as S
-import Graphics.X11.ExtraTypes.XF86
 
 import Data.List
 import System.IO
@@ -23,7 +22,7 @@ import Control.Monad.Trans
 import Data.Maybe
 import System.Posix(ProcessID)
 import Control.Monad.Writer
-import Data.Conduit.Binary hiding (mapM_)
+import Data.Conduit.Binary
 import Data.Conduit
 import qualified Data.Conduit.List as C
 import qualified Data.ByteString.Char8 as BS
@@ -98,7 +97,6 @@ main = do
        , terminal = "urxvt"
        } `removeKeys`
        [ (mod4Mask, xK_q)
-
        ] `additionalKeys`
        [ ((modShift, xK_Print), spawnDelay "import -window root $HOME/tmp/Screenshot.png")
        , ((0, xK_Print), spawnDelay "scrot")
@@ -107,19 +105,19 @@ main = do
 	   , ((modShift, xK_w), wSwitch "emacs")
 	   , ((modShift, xK_r), wSwitch "urxvt -e ncmpcpp")
 	   , ((modShift, xK_apostrophe), spawnDelay "shakemon")
-       , ((mod4Mask, xK_p), spawnDelay "dmenu_run -fn 'DejaVu Sans Mono-9'")
+       , ((mod4Mask, xK_p), spawnDelay "dmenu_run")
        , ((modShift, xK_g), spawnDelay "dmake $HOME/.gamesmake")
        , ((modShift, xK_e), spawnDelay "dmake $HOME/.editmake")
        , ((modShift, xK_d), spawnDelay "dmake $HOME/.displaymake")          
        , ((mod4Mask, xK_k), spawnDelay "dkill -15")          
        , ((modShift, xK_k), spawnDelay "dkill -9")          
        , ((modShift, xK_v), spawnDelay "gnome-volume-control")
-       , ((mod4Mask, xK_Home), spawnDelay "amixer set Master 25")
-       , ((mod4Mask, xK_End), spawnDelay "amixer set Master 0")
-       , ((mod4Mask, xK_Page_Up), spawnDelay "amixer set Master 3%+")
-       , ((mod4Mask, xK_Page_Down), spawnDelay "amixer set Master 3%-")
-       , ((mod4Mask, xF86XK_KbdBrightnessUp), io $ changeBrightness (+ 1))
-       , ((mod4Mask, xF86XK_KbdBrightnessDown), io $ changeBrightness (\a -> a - 1))
+       , ((mod4Mask, xK_Home), spawnDelay "amixer set Speaker 25 || amixer set Master 25")
+       , ((mod4Mask, xK_End), spawnDelay "amixer set Speaker 0 || amixer set Master 0")
+       , ((mod4Mask, xK_Page_Up), spawnDelay "amixer set Speaker 3%+ || amixer set Master 3%+")
+       , ((mod4Mask, xK_Page_Down), spawnDelay "amixer set Speaker 3%- || amixer set Master 3%-")
+       , ((modShift, xK_Page_Up), io $ changeBrightness (+ 1))
+       , ((modShift, xK_Page_Down), io $ changeBrightness (\a -> a - 1))
        , ((modShift, xK_End), spawnDelay "systemctl poweroff")
        , ((modShift, xK_Home), spawnDelay "systemctl reboot")
        , ((modShift, xK_Pause), nDebug "Hibernating..." >> spawnDelay "systemctl hibernate")
@@ -150,7 +148,7 @@ main = do
 changeBrightness :: (Int -> Int) -> IO ()
 changeBrightness f = runResourceT $ do
   let f' = BS.pack . (show . f . read) . BS.unpack
-  h <- lift $ openFile "/sys/class/backlight/gmux_backlight/brightness" ReadWriteMode
+  h <- lift $ openFile "/sys/class/backlight/acpi_video0/brightness" ReadWriteMode
   sourceHandle h $= C.map f' $$ sinkHandle h
   io $ hClose h
 

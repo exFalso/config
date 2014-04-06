@@ -1,7 +1,7 @@
-Config { font = "-misc-dejavu sans mono-medium-r-*-*-20-*-*-*-*-*-uni" -- "xft:DejaVu Sans Mono:size=18"
+Config { font = "-misc-fixed-*-*-*-*-13-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = Static { xpos = 0 , ypos = 0, width = 2880, height = 35 }
+       , position = TopW L 100
        , lowerOnStart = True
        , commands = [ Run Cpu ["-L","20","-H","65","--normal","green","--high","red"] 10
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
@@ -13,12 +13,14 @@ Config { font = "-misc-dejavu sans mono-medium-r-*-*-20-*-*-*-*-*-uni" -- "xft:D
                       "-L", "-15", "-H", "-5",
                       "-l", "red", "-m", "yellow"]
                       300
-		            , Run DynNetwork ["-t", "<dev>: <rx>KB|<tx>KB | "] 10
+		            , Run Network "wlan0" ["-t", "<dev>: <rx>KB|<tx>KB | "] 10
+		            , Run Network "eth0" ["-t", "<dev>: <rx>KB|<tx>KB | "] 10
+		            , Run PipeReader "/home/exfalso/.xmacro/status" "xmacro"
                     , Run DiskU [ ("/", "/: <free>/<size>")
-                                , ("/home", "| home: <free>/<size>")
+                                , ("/data", "| data: <free>/<size>")
                                 ] [] 20
                     ]
        , sepChar = "%"
        , alignSep = "}{"
-       , template = "%StdinReader% }{ %dynnetwork% %cpu% | %battery% | %disku% | %date%"
+       , template = "%StdinReader% <fc=#FF0000>%xmacro%</fc> }{ %eth0%%wlan0%%cpu% | %battery% | %disku% | %date%"
        }

@@ -11,14 +11,14 @@ URxvt*scrollTtyOutput   : false
 
 Rxvt*foreground:	White
 Rxvt*background:	Black
-Rxvt*font:		xft:Monospace:size=9
+Rxvt*font:		xft:Monospace:size=9.2
 Rxvt*scrollBar:		false
 
-! Xft.antialias: 1
-! Xft.dpi: 96
-! Xft.hinting: 1
-! Xft.hintstyle: hintfull
-! Xft.rgba: rgb
+Xft.antialias: 1
+Xft.dpi: 96
+Xft.hinting: 1
+Xft.hintstyle: hintfull
+Xft.rgba: rgb
 
 XTerm*VT100.Translations:    #override
 ! Shift<Btn1Down>:select-start()
@@ -35,7 +35,7 @@ XTerm*VT100.Translations:    #override
 
 ! Shift<BtnUp>: select-end(CLIPBOARD)
 
-Emacs.font: DejaVu Sans Mono-9
+Emacs.font: DejaVu Sans Mono-12
 Emacs.fontBackend: xft
 Emacs.menuBar: off
 Emacs.toolBar: -1
