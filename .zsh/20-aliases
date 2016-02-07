@@ -95,4 +95,10 @@ alias startx='cd && exec startx'
 alias matlab='matlab -display $DISPLAY'
 alias yt='youtube-dl -x -o "%(title)s.flv"'
 alias wine32='WINEPREFIX=~/.wine32 WINEARCH=win32 wine'
-alias emacs='emacsclient -c'
+alias urldecode='python -c "import sys, urllib as ul; \
+    print ul.unquote_plus(sys.argv[1])"'
+alias urlencode='python -c "import sys, urllib as ul; \
+    print ul.quote_plus(sys.argv[1])"'
+alias ghc710='export PATH=$HOME/.local/bin:/home/exfalso/.stack/programs/x86_64-linux/ghc-7.10.2/bin:$PATH'
+alias sa='ssh-agent zsh -c "ssh-add && zsh"'
+alias screenshot_region='(pic=$(mktemp).png && maim -s $pic && echo $pic | xsel -i)'

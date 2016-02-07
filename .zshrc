@@ -2031,6 +2031,19 @@ function info_print () {
     printf '%s' "${esc_end}"
 }
 
+function ssh_agent_info () {
+    if [[ -n $SSH_AGENT_PID ]] ; then
+        ssh-add -L > /dev/null
+        if [[ $? -eq 0 ]] ; then
+            SSH_AGENT_PROMPT="%{$fg_bold[red]%}SSH%b%<< "
+        else
+            SSH_AGENT_PROMPT=""
+        fi
+    else
+        SSH_AGENT_PROMPT=""
+    fi
+}
+
 # TODO: revise all these NO* variables and especially their documentation
 #       in zsh-help() below.
 is4 && [[ $NOPRECMD -eq 0 ]] && precmd () {
@@ -2038,6 +2051,7 @@ is4 && [[ $NOPRECMD -eq 0 ]] && precmd () {
     # update VCS information
     vcs_info
 
+    ssh_agent_info
     if [[ $TERM == screen* ]] ; then
         if [[ -n ${VCS_INFO_message_1_} ]] ; then
             ESC_print ${VCS_INFO_message_1_}
@@ -2112,7 +2126,7 @@ ${BLUE}%n${NO_COLOUR}@%m %40<...<%B%~%b%<< "'${VCS_INFO_message_0_}'"%# "
         # This assembles the primary prompt string
         if (( EUID != 0 )); then
             #PROMPT="${RED}${EXITCODE}${WHITE}${debian_chroot:+($debian_chroot)}${CYAN}%n${NO_COLOUR}@%m %40<...<%B%~%b%<< "'${VCS_INFO_message_0_}'"%# "
-            PROMPT="${RED}${EXITCODE}${WHITE}${debian_chroot:+($debian_chroot)}%{$fg_bold[green]%}%n@%m ${CYAN}%40<...<%B%~%b%<< "'${VCS_INFO_message_0_}'"%# "
+            PROMPT="${RED}${EXITCODE}${WHITE}${debian_chroot:+($debian_chroot)}%{$fg_bold[green]%}%n@%m ${CYAN}%40<...<%B%~%b%<< "'${VCS_INFO_message_0_}''${SSH_AGENT_PROMPT}'"%# "
         else
             #PROMPT="${CYAN}${EXITCODE}${WHITE}${debian_chroot:+($debian_chroot)}${RED}%n${NO_COLOUR}@%m %40<...<%B%~%b%<< "'${VCS_INFO_message_0_}'"%# "
             PROMPT="${CYAN}${EXITCODE}${WHITE}${debian_chroot:+($debian_chroot)}%{$fg_bold[red]%}%n%{$fg_no_bold[white]%}@%m ${CYAN}%40<...<%B%~%b%<< "'${VCS_INFO_message_0_}'"%# "
@@ -4474,7 +4488,7 @@ zrclocal
 
 source ~/.zsh/01-sources
 source ~/.zsh/20-aliases
-source ~/.zsh/40-bindings 
+source ~/.zsh/40-bindings
 
 # bindkey '5C' forward-word
 # bindkey '5D' backward-word
@@ -4493,10 +4507,36 @@ export PERL_LOCAL_LIB_ROOT="$PERL_LOCAL_LIB_ROOT:/home/exfalso/perl5";
 export PERL_MB_OPT="--install_base /home/exfalso/perl5";
 export PERL_MM_OPT="INSTALL_BASE=/home/exfalso/perl5";
 export PERL5LIB="/home/exfalso/perl5/lib/perl5:$PERL5LIB";
-export PATH="/usr/bin/site_perl:$PATH";
 export NODE_PATH="/usr/lib/node_modules"
 export EDITOR=emacs
 export VISUAL=$EDITOR
 export PYTHONPATH=/usr/lib/python2.6/site-packages
 export PYTHONINCLUDEDIR=/usr/include/python2.6
-export PATH=$HOME/Programming/Scripts:$PATH:$HOME/.cabal/bin
+path+=/usr/bin/site_perl
+path+=/opt/cuda/bin
+path+=$HOME/Programming/Prezi/sugoi/bin
+path+=$HOME/Programming/Prezi/lambda-junkyard/bin
+path=($HOME/.cabal/bin $HOME/Programming/Scripts $path)
+path+=$HOME/.gem/bin
+path=(/usr/lib/ccache/bin/ $path)
+export HAXE_STD_PATH=/opt/haxe/std:. # for 3.2.0
+path=(/home/exfalso/Programming/Haxe/haxe-3.1.3 $path)
+export HAXE_STD_PATH=/home/exfalso/Programming/Haxe/haxe-3.1.3/std:.
+# path=($HOME/.local/bin $path) # for ghc 7.10
+# CC=`which gcc-4.8`
+#export EC2_CERT=~/.awscert/cert.pem
+export EC2_PRIVATE_KEY=~/.ssh/aslemmer.pem
+export KOTLIN_HOME=/usr/share/kotlin
+export CXX=/usr/bin/g++-4.8.3
+export CXX=clang++
+CPATH=/opt/cuda/include
+CUDA_INCLUDE_PATH=/opt/cuda/include
+LIBRARY_PATH=/opt/cuda/lib64
+export LC_ALL=en_GB.UTF-8
+export USE_CCACHE=1
+export JAVA_HOME=/usr/lib/jvm/default
+export SCREP_USERNAME=slemi@
+export LD_LIBRARY_PATH=/usr/lib/ghc-7.8.4/rts-1.0
+
+export GEM_PATH=$HOME/.gem
+export FLEX_HOME=/home/exfalso/Programming/Flash/flex

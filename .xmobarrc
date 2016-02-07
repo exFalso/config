@@ -15,7 +15,8 @@ Config { font = "-misc-dejavu sans mono-medium-r-*-*-20-*-*-*-*-*-uni" -- "xft:D
                       300
 		            , Run DynNetwork ["-t", "<dev>: <rx>KB|<tx>KB | "] 10
                     , Run DiskU [ ("/", "/: <free>/<size>")
-                                , ("/home", "| home: <free>/<size>")
+                                , ("/home", "| /home: <free>/<size>")
+                                , ("/var/lib/docker", "| docker: <free>/<size>")
                                 ] [] 20
                     ]
        , sepChar = "%"

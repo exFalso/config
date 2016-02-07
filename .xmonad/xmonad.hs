@@ -1,32 +1,25 @@
-{-# LANGUAGE TupleSections, RankNTypes #-}
-import XMonad
-import XMonad.Hooks.DynamicLog
-import XMonad.Hooks.ManageDocks
-import XMonad.Hooks.ManageHelpers
-import XMonad.Util.Run(spawnPipe)
-import XMonad.Util.EZConfig(additionalKeys, removeKeys)
-import XMonad.Layout.NoBorders
-import XMonad.Layout.Spiral
-import XMonad.Hooks.SetWMName
-import qualified XMonad.StackSet as S
-import Graphics.X11.ExtraTypes.XF86
+{-# LANGUAGE RankNTypes    #-}
+{-# LANGUAGE TupleSections #-}
+import           Graphics.X11.ExtraTypes.XF86
+import           XMonad
+import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.ManageHelpers
+import           XMonad.Hooks.SetWMName
+import           XMonad.Layout.NoBorders
+import qualified XMonad.StackSet              as S
+import           XMonad.Util.EZConfig         (additionalKeys, removeKeys)
+import           XMonad.Util.Run              (spawnPipe)
 
-import Data.List
-import System.IO
-import Data.Monoid
-import qualified Data.Map as Map
-import Control.Concurrent
-import Control.Applicative
-import Control.Monad.Maybe
-import Control.Monad
-import Control.Monad.Trans
-import Data.Maybe
-import System.Posix(ProcessID)
-import Control.Monad.Writer
-import Data.Conduit.Binary hiding (mapM_)
-import Data.Conduit
-import qualified Data.Conduit.List as C
-import qualified Data.ByteString.Char8 as BS
+import           Control.Concurrent
+import           Control.Monad
+import           Control.Monad.Writer
+import           Data.List
+import qualified Data.Map                     as Map
+import           Data.Maybe
+import           Data.Monoid
+import           System.IO
+import           System.Posix                 (ProcessID)
 
 wallpaper :: String
 wallpaper = "~/Wallpapers/haskell.jpg"
@@ -35,7 +28,7 @@ myManageHook :: Query (Data.Monoid.Endo WindowSet)
 myManageHook = composeAll
     [ className =? "Gimp"      --> doFloat
     , className =? "Vncviewer" --> doFloat
-    , isFullscreen             --> doFullFloat	
+    , isFullscreen             --> doFullFloat
     ]
 
 type Sync = WriterT [String] X
@@ -54,13 +47,6 @@ unliftX f = do
   s <- get
   let ul x = fst <$> runX r s x
   io $ f ul
-
-
-forkX :: X () -> X ThreadId
-forkX x = unliftX $ \ul -> forkIO $ do
-            nd <- openDisplay ""
-            ul $ local (\r -> r  {display = nd}
-                       ) x
 
 myStartupHook :: X ()
 myStartupHook = do
@@ -85,10 +71,12 @@ main :: IO ()
 main = do
   spamToggle <- newMVar False
   xmproc <- spawnPipe "xmobar"
+  spawn "killall twmnd ; twmnd"
+  let tall = Tall 1 (3/100) (1/2)
   xmonad $ defaultConfig
        { manageHook = manageDocks <+> myManageHook
                       <+> manageHook defaultConfig
-       , layoutHook = avoidStruts $ spiral (1/2) ||| noBorders Full ||| Tall 1 (3/100) (1/2)
+       , layoutHook = avoidStruts $ smartBorders tall ||| smartBorders Full ||| smartBorders (Mirror tall)
        , startupHook = myStartupHook
        , logHook = dynamicLogWithPP $ xmobarPP
                    { ppOutput = hPutStrLn xmproc
@@ -101,25 +89,23 @@ main = do
 
        ] `additionalKeys`
        [ ((modShift, xK_Print), spawnDelay "import -window root $HOME/tmp/Screenshot.png")
-       , ((0, xK_Print), spawnDelay "scrot")
-	   , ((modShift, xK_f), wSwitch "firefox") -- "conkeror &> $HOME/.conkeror.mozdev.org/log")
-	   , ((modShift, xK_s), wSwitch "skype")
-	   , ((modShift, xK_w), wSwitch "emacs")
-	   , ((modShift, xK_r), wSwitch "urxvt -e ncmpcpp")
-	   , ((modShift, xK_apostrophe), spawnDelay "shakemon")
+       , ((0, xK_Print), spawnDelay "screenshot_region")
+       , ((modShift, xK_f), wSwitch "firefox") -- "conkeror &> $HOME/.conkeror.mozdev.org/log")
+       , ((modShift, xK_s), wSwitch "skype")
+       , ((modShift, xK_w), wSwitch "emacs")
+       , ((modShift, xK_r), wSwitch "urxvt -e ncmpcpp")
+       , ((modShift, xK_apostrophe), spawnDelay "shakemon")
        , ((mod4Mask, xK_p), spawnDelay "dmenu_run -fn 'DejaVu Sans Mono-9'")
        , ((modShift, xK_g), spawnDelay "dmake $HOME/.gamesmake")
        , ((modShift, xK_e), spawnDelay "dmake $HOME/.editmake")
-       , ((modShift, xK_d), spawnDelay "dmake $HOME/.displaymake")          
-       , ((mod4Mask, xK_k), spawnDelay "dkill -15")          
-       , ((modShift, xK_k), spawnDelay "dkill -9")          
+       , ((modShift, xK_d), spawnDelay "dmake $HOME/.displaymake")
+       , ((mod4Mask, xK_k), spawnDelay "dkill -15")
+       , ((modShift, xK_k), spawnDelay "dkill -9")
        , ((modShift, xK_v), spawnDelay "gnome-volume-control")
        , ((mod4Mask, xK_Home), spawnDelay "amixer set Master 25")
        , ((mod4Mask, xK_End), spawnDelay "amixer set Master 0")
        , ((mod4Mask, xK_Page_Up), spawnDelay "amixer set Master 3%+")
        , ((mod4Mask, xK_Page_Down), spawnDelay "amixer set Master 3%-")
-       , ((mod4Mask, xF86XK_KbdBrightnessUp), io $ changeBrightness (+ 1))
-       , ((mod4Mask, xF86XK_KbdBrightnessDown), io $ changeBrightness (\a -> a - 1))
        , ((modShift, xK_End), spawnDelay "systemctl poweroff")
        , ((modShift, xK_Home), spawnDelay "systemctl reboot")
        , ((modShift, xK_Pause), nDebug "Hibernating..." >> spawnDelay "systemctl hibernate")
@@ -127,35 +113,84 @@ main = do
        , ((mod4Mask, xK_KP_Subtract), spawnDelay "ncmpcpp prev")
        , ((mod4Mask, xK_KP_Enter), spawnDelay "ncmpcpp toggle")
        , ((mod4Mask, xK_KP_Insert), spawnDelay "notify-send \"`ncmpcpp --now-playing`\"")
-       , ((modShift, xK_n), spawnDelay "urxvt -e wicd-curses")
+       , ((modShift, xK_n), spawnDelay "urxvt -e 'bash -c \"connmanctl services ; connmanctl\"'")
        , ((modShift, xK_KP_Enter), spawnDelay "urxvt")
        , ((modShift, xK_numbersign), do
             nDebug "Recompiling XMonad"
             spawnDelay "xmonad --recompile && xmonad --restart && notify-send 'XMonad recompiled'")
-	   , ((modShift, xK_h), sendMessage ToggleStruts)
-         
+       , ((modShift, xK_h), sendMessage ToggleStruts)
+
+         -- brightness
+       , ((mod4Mask, xF86XK_MonBrightnessUp), brightnessUp)
+       , ((mod4Mask, xF86XK_MonBrightnessDown), brightnessDown)
+
        -- xmacro
        , ((modShift, xK_m), xmacroRecStart)
        , ((mod4Mask, xK_F8), xmacroRecStop)
        , ((mod4Mask, xK_F6), xmacroPlay)
        , ((mod4Mask, xK_F7), xmacroPlayFast)
-         
+       , ((mod4Mask, xF86XK_AudioRaiseVolume), raiseVolume alsa)
+       , ((mod4Mask, xF86XK_AudioLowerVolume), lowerVolume alsa)
+       , ((mod4Mask, xF86XK_AudioMute), muteVolume alsa)
+
        -- xtest
        , ((modShift, xK_z), toggleSpam spamToggle)
        , ((modShift, xK_l), nDebug $ workspaces defaultConfig !! 0)
        ]
     where
       modShift = mod4Mask .|. shiftMask
+      alsa = "alsa_output.pci-0000_00_1b.0.analog-stereo"
 
-changeBrightness :: (Int -> Int) -> IO ()
-changeBrightness f = runResourceT $ do
-  let f' = BS.pack . (show . f . read) . BS.unpack
-  h <- lift $ openFile "/sys/class/backlight/gmux_backlight/brightness" ReadWriteMode
-  sourceHandle h $= C.map f' $$ sinkHandle h
-  io $ hClose h
+_BRIGHTNESS_PATH :: String
+_BRIGHTNESS_PATH = "/sys/class/backlight/gmux_backlight/brightness"
 
-syncX :: X ()
-syncX = withDisplay $ \d -> io $ sync d False
+_BRIGHTNESS_MAX :: Int
+_BRIGHTNESS_MAX = 512
+
+_BRIGHTNESS_MIN :: Int
+_BRIGHTNESS_MIN = 0
+
+_BRIGHTNESS_DELTA :: Int
+_BRIGHTNESS_DELTA = 32
+
+getBrightness :: X (Maybe Int)
+getBrightness = do
+  brightnessRaw <- io $ withFile _BRIGHTNESS_PATH ReadMode hGetLine
+  case reads brightnessRaw of
+    [(b, [])] -> return (Just b)
+    _ -> return Nothing
+
+setBrightness :: Int -> X ()
+setBrightness newBrightness = io $ do
+  withFile _BRIGHTNESS_PATH WriteMode $ \handle -> do
+    hPutStrLn handle (show newBrightness)
+
+brightnessUp :: X ()
+brightnessUp = modifyBrightness (\brightness -> brightness + _BRIGHTNESS_DELTA)
+
+brightnessDown :: X ()
+brightnessDown = modifyBrightness (\brightness -> brightness - _BRIGHTNESS_DELTA)
+
+modifyBrightness :: (Int -> Int) -> X ()
+modifyBrightness modifyFun = do
+  mCurrentBrightness <- getBrightness
+  case mCurrentBrightness of
+    Nothing -> do
+      return ()
+    Just currentBrightness -> do
+      setBrightness (max _BRIGHTNESS_MIN (min _BRIGHTNESS_MAX (modifyFun currentBrightness)))
+
+
+type Sink = String
+
+raiseVolume :: Sink -> X ()
+raiseVolume sink = spawn $ "pactl set-sink-volume " <> sink <> " +5%"
+
+lowerVolume :: Sink -> X ()
+lowerVolume sink = spawn $ "pactl set-sink-volume " <> sink <> " -5%"
+
+muteVolume :: Sink -> X ()
+muteVolume sink = spawn $ "pactl set-sink-mute " <> sink <> " toggle"
 
 toggleSpam :: MVar Bool -> X ()
 toggleSpam mvar = unliftX $ \ul -> modifyMVar_ mvar $ \m ->
@@ -205,11 +240,11 @@ wSwitch cmd = do
                 windows (S.greedyView wid)
                 wins <- S.allWindows <$> gets windowset
                 winpids <- mapMaybe (\(w, mp) -> (w,) <$> mp) . zip wins <$> mapM (runQuery pid) wins
-                window <- runMaybeT $ foldl (\m (w, p) ->
-                                                 mplus m $ do
-                                                   cmd2 <- lift $ cmdLine p
-                                                   MaybeT . return $ if (cmd2 == cmd)
-                                                                     then Just w
-                                                                     else Nothing
-                                            ) mzero winpids
-                maybe (spawn cmd) focus window
+                mWindows <- forM winpids $ \(w, p) -> do
+                  cmd2 <- cmdLine p
+                  return $ if (cmd2 == cmd)
+                           then Just w
+                           else Nothing
+                case catMaybes mWindows of
+                  (w : _) -> focus w
+                  _ -> spawn cmd
