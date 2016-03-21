@@ -32,6 +32,8 @@
      "git-find-file"
      )))
 
+(require 'cl)
+
 (autoload 'word-count-mode "word-count" "Minor mode to count words." t nil)
 (autoload 'run-prolog "prolog" "Start a Prolog sub-process." t)
 (autoload 'prolog-mode "prolog" "Major mode for editing Prolog programs." t)
@@ -97,8 +99,10 @@ the checking happens for all pairs in auto-minor-mode-alist"
 				("\\.m$" . mercury-mode)
 				("\\.scala$" . scala-mode)
 				("\\.cu$" . c-mode)
-				("\\.ts\\'" . typescript-mode))
-							  auto-mode-alist))
+				("\\.ts\\'" . typescript-mode)
+				("\\.tsx\\'" . typescript-mode)
+                )
+              auto-mode-alist))
 
 (setq auto-minor-mode-alist
       (append '(("\\.ede$" . ede-mode))
@@ -155,7 +159,7 @@ the checking happens for all pairs in auto-minor-mode-alist"
 (autoload 'ghc-init "ghc" nil t)
 (setq ghc-make-ghc-options '("-XNoMonomorphismRestriction" "-Wall"))
 (setq haskell-font-lock-symbols t)
-(setq haskell-stylish-on-save t)
+;; (setq haskell-stylish-on-save t)
 (add-hook 'haskell-mode-hook
 	  (lambda ()
 	    (ghc-init)
@@ -231,7 +235,8 @@ the checking happens for all pairs in auto-minor-mode-alist"
 
 (add-hook 'java-mode-hook (lambda ()
 			   (require 'flymake-cursor)
-			   ;; (flymake-mode)
+			   (flymake-mode)
+               (setq flymake-no-changes-timeout 10)
 			   (auto-complete-mode)
 			   ))
 
@@ -253,7 +258,7 @@ the checking happens for all pairs in auto-minor-mode-alist"
 
 (add-hook 'typescript-mode-hook (lambda ()
 			   (auto-complete-mode)
-               (setq-local indent-tabs-mode t)
+               (setq-local indent-tabs-mode nil)
 			   ))
 
 
@@ -290,24 +295,24 @@ the checking happens for all pairs in auto-minor-mode-alist"
 
 ;; elm
 
-(add-to-list 'load-path "~/.emacs.d/elm-mode/")
-(require 'elm-mode)
-(require 'flymake-elm)
+;; (add-to-list 'load-path "~/.emacs.d/elm-mode/")
+;; (require 'elm-mode)
+;; (require 'flymake-elm)
 
-(add-hook 'elm-mode-hook (lambda ()
-                           ;; (flymake-mode)
-                           (require 'flymake-cursor)
-                           (global-set-key (kbd "M-n")
-                                           (lambda ()
-                                             (interactive)
-                                             (flymake-goto-next-error)
-                                             (flyc/show-fly-error-at-point-now)))
-                           (global-set-key (kbd "M-p")
-                                           (lambda ()
-                                             (interactive)
-                                             (flymake-goto-prev-error)
-                                             (flyc/show-fly-error-at-point-now)))
-                           ))
+;; (add-hook 'elm-mode-hook (lambda ()
+;;                            ;; (flymake-mode)
+;;                            (require 'flymake-cursor)
+;;                            (global-set-key (kbd "M-n")
+;;                                            (lambda ()
+;;                                              (interactive)
+;;                                              (flymake-goto-next-error)
+;;                                              (flyc/show-fly-error-at-point-now)))
+;;                            (global-set-key (kbd "M-p")
+;;                                            (lambda ()
+;;                                              (interactive)
+;;                                              (flymake-goto-prev-error)
+;;                                              (flyc/show-fly-error-at-point-now)))
+;;                            ))
 
 (require 'generic-x)
 
@@ -618,6 +623,30 @@ the checking happens for all pairs in auto-minor-mode-alist"
 (global-set-key (kbd "C-M-g") (lambda () (interactive)
 								(call-interactively 'find-grep-dired)))
 
+(defun count-spaces-or-nil-if-tab (line)
+
+  )
+
+(defun infer-tabs-or-spaces-mode
+  (interactive)
+  (let ((lineno 0) (maxlineno (line-number-at-pos (end-of-buffer))) (minspace default-tab-width) (tabcount 0))
+    (save-excursion
+      (while (and (< lineno 100) (<= lineno maxlineno))
+        (goto-line lineno)
+        (let ((spaceno nil))
+          (progn
+            (setq spaceno (count-spaces-or-nil-if-tab (thing-at-point 'line t)))
+            (if spaceno
+                (if (and (not (eq 0 spaceno)) (< spaceno default-tab-width))
+                    (setq minspace spaceno))
+              (setq tabcount (+ tabcount 1))
+            ))
+          ))
+      (if (> tabcount 0)
+          (setq-default indent-tabs-mode t) ;; TABBBB
+        (setq default-tab-width minspace))
+      )))
+
 ;; (require 'haxe-mode)
 (require 'git-ediff)
 ;; (require 'ox-md)
@@ -637,8 +666,8 @@ by using nxml's indentation rules."
       (indent-region begin end))
     (message "Ah, much better!"))
 
-(load-file (let ((coding-system-for-read 'utf-8))
-                (shell-command-to-string "agda-mode locate")))
+;; (load-file (let ((coding-system-for-read 'utf-8))
+;;                 (shell-command-to-string "agda-mode locate")))
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)

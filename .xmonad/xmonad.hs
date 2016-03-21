@@ -11,6 +11,7 @@ import qualified XMonad.StackSet              as S
 import           XMonad.Util.EZConfig         (additionalKeys, removeKeys)
 import           XMonad.Util.Run              (spawnPipe)
 
+import           Text.Regex.TDFA
 import           Control.Concurrent
 import           Control.Monad
 import           Control.Monad.Writer
@@ -90,7 +91,7 @@ main = do
        ] `additionalKeys`
        [ ((modShift, xK_Print), spawnDelay "import -window root $HOME/tmp/Screenshot.png")
        , ((0, xK_Print), spawnDelay "screenshot_region")
-       , ((modShift, xK_f), wSwitch "firefox") -- "conkeror &> $HOME/.conkeror.mozdev.org/log")
+       , ((modShift, xK_f), wSwitch "chromium") -- "conkeror &> $HOME/.conkeror.mozdev.org/log")
        , ((modShift, xK_s), wSwitch "skype")
        , ((modShift, xK_w), wSwitch "emacs")
        , ((modShift, xK_r), wSwitch "urxvt -e ncmpcpp")
@@ -199,7 +200,7 @@ toggleSpam mvar = unliftX $ \ul -> modifyMVar_ mvar $ \m ->
                     True -> ul (spawn "killall clickspammer") *> return False
 
 nDebug :: String -> X ()
-nDebug str = spawnDelay $ "notify-send '" ++ str ++ "'"
+nDebug str = spawnDelay $ "twmnc -c '" ++ str ++ "'"
 
 xmacroRecStart :: X ()
 xmacroRecStart = mapM_ spawn
@@ -221,7 +222,7 @@ xmacroPlayFast = do
 
 
 wAssignment :: Map.Map String WorkspaceId
-wAssignment = Map.fromList [ ("firefox", "2")
+wAssignment = Map.fromList [ ("chromium", "2")
                            , ("skype", "8")
                            , ("emacs", "1")
                            , ("urxvt -e ncmpcpp", "4")
@@ -242,6 +243,7 @@ wSwitch cmd = do
                 winpids <- mapMaybe (\(w, mp) -> (w,) <$> mp) . zip wins <$> mapM (runQuery pid) wins
                 mWindows <- forM winpids $ \(w, p) -> do
                   cmd2 <- cmdLine p
+                  nDebug cmd2
                   return $ if (cmd2 == cmd)
                            then Just w
                            else Nothing
