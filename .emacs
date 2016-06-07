@@ -157,7 +157,9 @@ the checking happens for all pairs in auto-minor-mode-alist"
 
 
 (autoload 'ghc-init "ghc" nil t)
+(autoload 'ghc-debug "ghc" nil t)
 (setq ghc-make-ghc-options '("-XNoMonomorphismRestriction" "-Wall"))
+(setq ghc-debug t)
 (setq haskell-font-lock-symbols t)
 ;; (setq haskell-stylish-on-save t)
 (add-hook 'haskell-mode-hook
@@ -244,7 +246,8 @@ the checking happens for all pairs in auto-minor-mode-alist"
 			   (require 'flymake-cursor)
 			   (auto-complete-mode)
 			   (c++-keybindings)
-			   (setq-local indent-tabs-mode t)
+			   (setq-local indent-tabs-mode nil)
+               (setq-local default-tab-width 2)
                (set-generic-balance-indent "{\\|(" "}\\|)")
 			   ))
 (add-hook 'c-mode-hook (lambda () (require 'flymake-cursor)))

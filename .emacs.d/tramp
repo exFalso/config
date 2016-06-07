@@ -1,6 +1,6 @@
-;; -*- emacs-lisp -*- <16/03/15 02:16:49 /home/exfalso/.emacs.d/tramp>
+;; -*- emacs-lisp -*- <16/05/17 22:15:25 /home/exfalso/.emacs.d/tramp>
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
-((["rethinkdb_dump_2016-03-04T19" nil "41" nil nil]
+((["scp" nil "10.0.0.128" nil nil]
   nil))

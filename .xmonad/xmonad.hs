@@ -11,7 +11,6 @@ import qualified XMonad.StackSet              as S
 import           XMonad.Util.EZConfig         (additionalKeys, removeKeys)
 import           XMonad.Util.Run              (spawnPipe)
 
-import           Text.Regex.TDFA
 import           Control.Concurrent
 import           Control.Monad
 import           Control.Monad.Writer
@@ -73,6 +72,8 @@ main = do
   spamToggle <- newMVar False
   xmproc <- spawnPipe "xmobar"
   spawn "killall twmnd ; twmnd"
+  spawn "killall trayer ; trayer --edge top --align right --width 5  --height 30 --tint 0x000000 --transparent true"
+  spawn "nm-applet"
   let tall = Tall 1 (3/100) (1/2)
   xmonad $ defaultConfig
        { manageHook = manageDocks <+> myManageHook
@@ -116,7 +117,7 @@ main = do
        , ((mod4Mask, xK_KP_Insert), spawnDelay "notify-send \"`ncmpcpp --now-playing`\"")
        , ((modShift, xK_n), spawnDelay "urxvt -e 'bash -c \"connmanctl services ; connmanctl\"'")
        , ((modShift, xK_KP_Enter), spawnDelay "urxvt")
-       , ((modShift, xK_numbersign), do
+       , ((modShift, xK_grave), do
             nDebug "Recompiling XMonad"
             spawnDelay "xmonad --recompile && xmonad --restart && notify-send 'XMonad recompiled'")
        , ((modShift, xK_h), sendMessage ToggleStruts)
@@ -142,45 +143,14 @@ main = do
       modShift = mod4Mask .|. shiftMask
       alsa = "alsa_output.pci-0000_00_1b.0.analog-stereo"
 
-_BRIGHTNESS_PATH :: String
-_BRIGHTNESS_PATH = "/sys/class/backlight/gmux_backlight/brightness"
-
-_BRIGHTNESS_MAX :: Int
-_BRIGHTNESS_MAX = 512
-
-_BRIGHTNESS_MIN :: Int
-_BRIGHTNESS_MIN = 0
-
 _BRIGHTNESS_DELTA :: Int
-_BRIGHTNESS_DELTA = 32
-
-getBrightness :: X (Maybe Int)
-getBrightness = do
-  brightnessRaw <- io $ withFile _BRIGHTNESS_PATH ReadMode hGetLine
-  case reads brightnessRaw of
-    [(b, [])] -> return (Just b)
-    _ -> return Nothing
-
-setBrightness :: Int -> X ()
-setBrightness newBrightness = io $ do
-  withFile _BRIGHTNESS_PATH WriteMode $ \handle -> do
-    hPutStrLn handle (show newBrightness)
+_BRIGHTNESS_DELTA = 5
 
 brightnessUp :: X ()
-brightnessUp = modifyBrightness (\brightness -> brightness + _BRIGHTNESS_DELTA)
+brightnessUp = spawn ("xbacklight -inc " <> show _BRIGHTNESS_DELTA)
 
 brightnessDown :: X ()
-brightnessDown = modifyBrightness (\brightness -> brightness - _BRIGHTNESS_DELTA)
-
-modifyBrightness :: (Int -> Int) -> X ()
-modifyBrightness modifyFun = do
-  mCurrentBrightness <- getBrightness
-  case mCurrentBrightness of
-    Nothing -> do
-      return ()
-    Just currentBrightness -> do
-      setBrightness (max _BRIGHTNESS_MIN (min _BRIGHTNESS_MAX (modifyFun currentBrightness)))
-
+brightnessDown = spawn ("xbacklight -dec " <> show _BRIGHTNESS_DELTA)
 
 type Sink = String
 
@@ -243,7 +213,6 @@ wSwitch cmd = do
                 winpids <- mapMaybe (\(w, mp) -> (w,) <$> mp) . zip wins <$> mapM (runQuery pid) wins
                 mWindows <- forM winpids $ \(w, p) -> do
                   cmd2 <- cmdLine p
-                  nDebug cmd2
                   return $ if (cmd2 == cmd)
                            then Just w
                            else Nothing

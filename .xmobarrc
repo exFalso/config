@@ -1,17 +1,15 @@
-Config { font = "-misc-dejavu sans mono-medium-r-*-*-14-*-*-*-*-*-uni" -- "xft:DejaVu Sans Mono:size=12"
+Config { font = "-*-hack-medium-r-normal-*-22-*-*-*-*-*-*-*"
        , bgColor = "black"
        , fgColor = "grey"
-       , position = Static { xpos = 0 , ypos = 0, width = 1366, height = 20 }
+       , position = TopW L 95
        , lowerOnStart = True
        , commands = [ Run Cpu ["-L","20","-H","65","--normal","green","--high","red"] 10
                     , Run Date "%a %b %_d %Y %H:%M:%S" "date" 10
                     , Run StdinReader
                     , Run Battery
                       ["-t", "Battery: <left>%",
-                      "-L", "10", "-H", "80", "-p", "3",
-                      "--", "-O", "<fc=green>On</fc> - ", "-i", "",
-                      "-L", "-15", "-H", "-5",
-                      "-l", "red", "-m", "yellow"]
+                      "-L", "15", "-H", "60",
+                      "--normal","yellow","--low","red"]
                       300
 		            , Run DynNetwork ["-t", "<dev>: <rx>KB|<tx>KB | "] 10
                     , Run DiskU [ ("/", "/: <free>/<size>")
