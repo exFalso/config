@@ -1,0 +1,13 @@
+#!/bin/bash
+
+set -euo pipefail
+
+SIGNAL=-15
+if [ $# -eq 1 ]
+then
+   SIGNAL=$1
+fi
+
+TOKILL=$(ps -eo pid,comm | tail -n +2 | dmenu | awk '{print $1;}')
+
+kill $SIGNAL $TOKILL
