@@ -4532,3 +4532,4 @@ export USE_CCACHE=1
 export JAVA_HOME=/usr/lib/jvm/default
 export SCREP_USERNAME=slemi@
 export LD_LIBRARY_PATH=/usr/lib/ghc-7.8.4/rts-1.0
+export SGX_SDK=/home/exfalso/Programming/sgxsdk

@@ -1,7 +1,169 @@
-((("Sequential_tag" .
+((("finalResult" .
+   [2 0 0 0 0 0 0 1 0 0 0])
+  ("allColours" .
+   [2 0 0 0 0 0 0 0 0 0])
+  ("nextState" .
+   [1 0 0 0 0 0 0 0 0])
+  ("mod" .
+   [2 0 0])
+  ("colourFlag" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("height" .
+   [1 0 0 0 0 0])
+  ("pair" .
+   [6 0 0 0])
+  ("colours" .
+   [3 0 0 0 0 0 0])
+  ("iterator" .
+   [2 0 0 0 0 0 0 0])
+  ("first" .
+   [1 0 0 0 0])
+  ("searchXorDiags" .
+   [0 0 0 0 0 0 0 0 2 0 0 0 0 0])
+  ("bitset" .
+   [1 0 0 0 0 0])
+  ("table" .
+   [1 0 0 0 0])
+  ("Lookup" .
+   [2 0 0 0 0 0])
+  ("branchingSum" .
+   [1 0 0 0 0 0 0 0 0 0 0 0])
+  ("second" .
+   [3 0 0 0 0 0])
+  ("iter" .
+   [2 0 0 0])
+  ("branching" .
+   [1 0 0 0 0 0 0 0 1])
+  ("uint64_t" .
+   [1 0 0 0 0 0 0 0])
+  ("for" .
+   [1 0 0])
+  ("push_back" .
+   [1 0 0 0 0 0 0 0 0])
+  ("helperTable" .
+   [1 0 0 0 0 0 0 0 0 0 0])
+  ("to_ullong" .
+   [0 0 0 1 0 0 0 0 0])
+  ("bBs" .
+   [1 0 0])
+  ("a0Bs" .
+   [2 0 0 0])
+  ("b0Bs" .
+   [1 0 0 0])
+  ("aBs" .
+   [1 0 0])
+  ("xorDiagonal" .
+   [3 0 0 0 0 0 0 0 0 0 0])
+  ("xBs" .
+   [2 0 0])
+  ("calculateSearch" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("search" .
+   [6 0 0 0 0 0])
+  ("Search" .
+   [3 0 0 0 0 0])
+  ("SearchBits" .
+   [11 0 0 0 0 0 0 0 0 0])
+  ("setw" .
+   [1 0 0 0])
+  ("setfill" .
+   [1 0 0 0 0 0 0])
+  ("right" .
+   [1 0 0 0 0])
+  ("set" .
+   [2 0 0])
+  ("SEARCH_BITS" .
+   [2 0 0 1 0 0 1 0 1 0 0])
+  ("Branch" .
+   [1 0 0 0 0 0])
+  ("statesToExpand" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0])
+  ("WALL" .
+   [1 0 0 0])
+  ("nextStep" .
+   [3 0 0 0 0 0 0 0])
+  ("Position" .
+   [1 0 0 0 0 0 0 0])
+  ("nextObjective" .
+   [2 0 0 0 0 0 0 0 1 0 0 0 0])
+  ("steps" .
+   [4 0 0 0 0])
+  ("assert" .
+   [1 0 0 0 0 0])
+  ("myEntity" .
+   [3 0 0 0 0 0 0 0])
+  ("PATH" .
+   [2 0 0 0])
+  ("NO_PATH" .
+   [1 0 0 0 0 1 0])
+  ("PathType" .
+   [1 0 0 0 0 0 1 0])
+  ("path" .
+   [11 0 0 0])
+  ("Entity" .
+   [1 0 0 0 0 0])
+  ("pragma" .
+   [1 0 0 0 0 0])
+  ("recursivePaths" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("Path" .
+   [1 0 0 0])
+  ("retrievedBombs" .
+   [0 0 0 0 0 1 0 0 0 0 0 0 0 0])
+  ("player" .
+   [1 0 0 0 0 0])
+  ("myIdentity" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("owner" .
+   [2 0 0 0 0])
+  ("bomb" .
+   [2 0 0 0])
+  ("explosionRange" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("remainingBombs" .
+   [0 0 0 0 0 0 0 0 0 0 0 1 0 0])
+  ("type" .
+   [5 0 0 0])
+  ("ItemType" .
+   [2 0 0 0 0 0 0 0])
+  ("bombScore" .
+   [1 0 0 0 0 0 0 0 0])
+  ("score" .
+   [7 0 0 0 0])
+  ("boxesExploded" .
+   [0 0 0 0 0 0 0 0 1 1 1 0 0])
+  ("emplace_back" .
+   [1 0 0 0 0 0 0 0 0 0 0 0])
+  ("continue" .
+   [2 0 0 0 0 0 0 0])
+  ("break" .
+   [3 0 0 0 0])
+  ("explodedBoxes" .
+   [3 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("timeTillExplosion" .
+   [0 0 0 0 0 0 0 1 1 2 0 0 1 0 0 0 0])
+  ("objectives" .
+   [13 0 0 0 0 0 0 0 0 0])
+  ("Objective" .
+   [3 0 0 0 0 0 0 0 0])
+  ("double" .
+   [5 0 0 0 0 0])
+  ("width" .
+   [2 0 0 0 0])
+  ("board" .
+   [2 0 0 0 0])
+  ("FloorState" .
+   [1 0 0 0 0 0 0 0 0 0])
+  ("vector" .
+   [6 0 0 0 0 0])
+  ("cells" .
+   [2 0 0 0 0])
+  ("Board" .
+   [2 0 0 0 0])
+  ("Sequential_tag" .
    [0 0 0 0 1 0 0 0 0 0 0 0 0 0])
   ("int" .
-   [1 0 0])
+   [9 0 0])
   ("string" .
    [2 0 0 0 0 0])
   ("highlightId" .
@@ -13,7 +175,7 @@
   ("this" .
    [8 0 0 0])
   ("else" .
-   [1 0 0 0])
+   [3 0 0 0])
   ("DOM" .
    [1 0 0])
   ("private" .
@@ -41,7 +203,7 @@
   ("highlight" .
    [1 0 0 0 0 0 0 0 0])
   ("key" .
-   [2 0 0])
+   [4 0 0])
   ("imageUrl" .
    [1 0 0 0 0 0 0 0])
   ("view" .
@@ -49,9 +211,9 @@
   ("View" .
    [1 0 0 0])
   ("const" .
-   [1 0 0 0 0])
+   [10 0 0 0 0])
   ("return" .
-   [2 0 0 0 0 0])
+   [5 0 0 0 0 0])
   ("ret" .
    [1 0 0])
   ("nextKey" .
@@ -77,9 +239,9 @@
   ("typedef" .
    [1 0 0 0 0 0 0])
   ("auto" .
-   [4 0 0 0])
+   [12 0 0 0])
   ("std" .
-   [3 0 0])
+   [53 0 0])
   ("reconstructionFunction" .
    [0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 1 0 0 0 0])
   ("averageSpacing" .
@@ -93,10 +255,154 @@
   ("off" .
    [1 0 0])
   ("cout" .
-   [1 0 0 0])
+   [12 0 0 0])
   ("endl" .
-   [1 0 0 0])
+   [9 0 0 0])
   ("Rotation" .
    [1 0 0 0 0 0 0 0])
   ("Point" .
-   [1 0 0 0 0])))
+   [1 0 0 0 0])
+  ("lookahead" .
+   [6 0 0 0 0 0 0 0 1])
+  ("lookaheads" .
+   [3 0 0 0 0 0 0 0 0 0])
+  ("depth" .
+   [16 0 0 0 0])
+  ("edges" .
+   [2 0 0 0 0])
+  ("size" .
+   [6 0 0 0])
+  ("if" .
+   [1 0])
+  ("EdgeType" .
+   [1 0 0 0 0 0 0 0])
+  ("EDGE_OR_ROOT" .
+   [0 0 0 0 0 1 0 0 0 0 0 0])
+  ("aiBoard" .
+   [2 0 0 0 0 0 0])
+  ("cell" .
+   [5 0 0 0])
+  ("state" .
+   [11 0 0 0 0])
+  ("CellState" .
+   [1 0 0 0 0 0 0 0 0])
+  ("EMPTY" .
+   [1 0 0 0 0])
+  ("empty" .
+   [2 0 0 0 0])
+  ("occupation" .
+   [2 0 0 0 0 0 0 0 0 0])
+  ("CellOccupation" .
+   [0 0 0 0 0 0 0 0 0 2 0 0 0 0])
+  ("BOMB" .
+   [1 0 0 0])
+  ("static" .
+   [3 0 0 0 0 0])
+  ("bombTickTime" .
+   [2 0 0 0 0 0 0 0 0 0 0 0])
+  ("SearchBoard" .
+   [1 0 0 0 0 0 0 0 0 0 0])
+  ("explodedBoard" .
+   [2 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("max" .
+   [1 0 0])
+  ("maxLookahead" .
+   [0 0 0 0 0 0 0 1 0 0 0 0])
+  ("bool" .
+   [3 0 0 0])
+  ("explodingBoard" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("explosion" .
+   [2 0 0 0 0 0 0 0 0])
+  ("grid" .
+   [1 0 0 0])
+  ("earlyExplosion" .
+   [0 0 0 0 0 0 0 0 0 0 1 0 0 0])
+  ("true" .
+   [2 0 0 0])
+  ("false" .
+   [1 0 0 0 0])
+  ("maxBranchingFactor" .
+   [0 0 0 0 0 0 1 1 0 0 0 0 0 0 0 0 0 0])
+  ("begin" .
+   [1 0 0 0 0])
+  ("end" .
+   [1 0 0])
+  ("erase" .
+   [1 0 0 0 0])
+  ("objective" .
+   [10 0 0 0 0 0 0 0 0])
+  ("switch" .
+   [2 0 0 1 0 0])
+  ("ObjectiveType" .
+   [2 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("PLACE_BOMB" .
+   [1 0 0 0 0 1 0 0 0 0])
+  ("GATHER_ITEM" .
+   [0 0 0 0 0 0 1 0 0 0 0])
+  ("stream" .
+   [5 0 0 0 0 0])
+  ("lookaheadIndex" .
+   [1 0 0 0 0 0 0 0 0 0 0 0 0 0])
+  ("placeBomb" .
+   [2 0 0 0 0 0 0 0 0])
+  ("gather" .
+   [0 0 0 0 0 1])
+  ("gatherItem" .
+   [0 0 0 0 0 0 0 0 0 1])
+  ("EXTRA_" .
+   [0 0 0 0 0 1])
+  ("EXTRA_RANGE" .
+   [1 0 0 0 0 0 0 0 0 0 0])
+  ("cerr" .
+   [10 0 0 0])
+  ("baseRemainingBombs" .
+   [0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0 0 0])
+  ("NONE" .
+   [1 0 0 0])
+  ("inRange" .
+   [2 0 0 0 0 0 0])
+  ("searchBoard" .
+   [1 0 0 0 0 0 0 0 0 0 0])
+  ("tmpx" .
+   [1 0 0 0])
+  ("tmpy" .
+   [1 0 0 0])
+  ("visited" .
+   [1 0 0 0 0 0 0])
+  ("baseState" .
+   [4 0 0 0 0 0 0 0 0])
+  ("distance" .
+   [1 0 0 0 0 0 0 0])
+  ("abs" .
+   [3 0 0])
+  ("ppState" .
+   [2 0 1 0 0 0 0])
+  ("applyBranch" .
+   [0 0 0 0 0 0 1 0 0 0 0])
+  ("initialState" .
+   [2 0 0 0 0 0 0 0 0 0 0 0])
+  ("sqr" .
+   [4 0 0])
+  ("targetX1" .
+   [4 0 0 0 0 0 0 0])
+  ("targetX0" .
+   [2 0 0 0 0 0 0 0])
+  ("params" .
+   [2 0 0 0 0 0])
+  ("asd" .
+   [1 0 0])
+  ("include" .
+   [1 0 0 0 0 0 0])
+  ("SDL" .
+   [1 0 0])
+  ("SDL_RenderDrawLine" .
+   [0 0 0 0 0 0 0 0 1 0 0 0 0 0 0 0 0 0])
+  ("renderer" .
+   [5 0 0 0 0 0 0 0])
+  ("while" .
+   [1 0 0 0 0])
+  ("event" .
+   [1 0 0 0 0])
+  ("0x00" .
+   [1 0 0 0])))

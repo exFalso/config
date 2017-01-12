@@ -1,4 +1,11 @@
 ;; (setq debug-on-error t)
+
+;; Added by Package.el.  This must come before configurations of
+;; installed packages.  Don't delete this line.  If you don't want it,
+;; just comment it out by adding a semicolon to the start of the line.
+;; You may delete these explanatory comments.
+(package-initialize)
+
 (setq initial-scratch-message "")
 ;; (set-face-attribute 'default nil :height 90)
 (let ((default-directory "~/.emacs.d/"))
@@ -192,19 +199,48 @@ the checking happens for all pairs in auto-minor-mode-alist"
                   (read-only-mode)
                   (auto-revert-mode)))))
 
-(add-hook 'before-save-hook
-          (lambda ()
-            (delete-trailing-whitespace)))
+;; (add-hook 'before-save-hook
+;;           (lambda ()
+;;             (delete-trailing-whitespace)))
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- '(TeX-output-view-style (quote (("^pdf$" ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$") "%(o?)dvips -t landscape %d -o && gv %f") ("^pdf$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f") ("^pdf$" ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$") "%(o?)evince %dS -paper a4r -s 0 %d") ("^pdf$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)evince %dS -paper a4 %d") ("^pdf$" ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$") "%(o?)evince %dS -paper a5r -s 0 %d") ("^pdf$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)evince %dS -paper a5 %d") ("^pdf$" "^b5paper$" "%(o?)evince %dS -paper b5 %d") ("^pdf$" "^letterpaper$" "%(o?)evince %dS -paper us %d") ("^pdf$" "^legalpaper$" "%(o?)evince %dS -paper legal %d") ("^pdf$" "^executivepaper$" "%(o?)evince %dS -paper 7.25x10.5in %d") ("^pdf$" "." "%(o?)evince %dS %d") ("^pdf$" "." "xpdf -remote %s -raise %o %(outpage)") ("^html?$" "." "netscape %o"))))
- '(TeX-view-program-selection (quote (((output-dvi style-pstricks) "dvips and gv") (output-dvi "Evince") (output-pdf "Evince") (output-html "xdg-open"))))
+ '(TeX-output-view-style
+   (quote
+    (("^pdf$"
+      ("^landscape$" "^pstricks$\\|^pst-\\|^psfrag$")
+      "%(o?)dvips -t landscape %d -o && gv %f")
+     ("^pdf$" "^pstricks$\\|^pst-\\|^psfrag$" "%(o?)dvips %d -o && gv %f")
+     ("^pdf$"
+      ("^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "^landscape$")
+      "%(o?)evince %dS -paper a4r -s 0 %d")
+     ("^pdf$" "^\\(?:a4\\(?:dutch\\|paper\\|wide\\)\\|sem-a4\\)$" "%(o?)evince %dS -paper a4 %d")
+     ("^pdf$"
+      ("^\\(?:a5\\(?:comb\\|paper\\)\\)$" "^landscape$")
+      "%(o?)evince %dS -paper a5r -s 0 %d")
+     ("^pdf$" "^\\(?:a5\\(?:comb\\|paper\\)\\)$" "%(o?)evince %dS -paper a5 %d")
+     ("^pdf$" "^b5paper$" "%(o?)evince %dS -paper b5 %d")
+     ("^pdf$" "^letterpaper$" "%(o?)evince %dS -paper us %d")
+     ("^pdf$" "^legalpaper$" "%(o?)evince %dS -paper legal %d")
+     ("^pdf$" "^executivepaper$" "%(o?)evince %dS -paper 7.25x10.5in %d")
+     ("^pdf$" "." "%(o?)evince %dS %d")
+     ("^pdf$" "." "xpdf -remote %s -raise %o %(outpage)")
+     ("^html?$" "." "netscape %o"))))
+ '(TeX-view-program-selection
+   (quote
+    (((output-dvi style-pstricks)
+      "dvips and gv")
+     (output-dvi "Evince")
+     (output-pdf "Evince")
+     (output-html "xdg-open"))))
  '(find-grep-options "-q -I")
- '(haskell-program-name "ghci"))
+ '(haskell-program-name "ghci")
+ '(haskell-tags-on-save t)
+ '(mode-require-final-newline nil)
+ '(require-final-newline nil))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
@@ -247,7 +283,7 @@ the checking happens for all pairs in auto-minor-mode-alist"
 			   (auto-complete-mode)
 			   (c++-keybindings)
 			   (setq-local indent-tabs-mode nil)
-               (setq-local default-tab-width 2)
+               (setq-local default-tab-width 4)
                (set-generic-balance-indent "{\\|(" "}\\|)")
 			   ))
 (add-hook 'c-mode-hook (lambda () (require 'flymake-cursor)))
@@ -294,7 +330,7 @@ the checking happens for all pairs in auto-minor-mode-alist"
 
 ;; groovy
 (add-to-list 'load-path "~/.emacs.d/Emacs-Groovy-Mode/")
-(require 'groovy-mode)
+;; (require 'groovy-mode)
 
 ;; elm
 
@@ -669,8 +705,8 @@ by using nxml's indentation rules."
       (indent-region begin end))
     (message "Ah, much better!"))
 
-;; (load-file (let ((coding-system-for-read 'utf-8))
-;;                 (shell-command-to-string "agda-mode locate")))
+(load-file (let ((coding-system-for-read 'utf-8))
+                (shell-command-to-string "agda-mode locate")))
 (put 'downcase-region 'disabled nil)
 (put 'upcase-region 'disabled nil)
 (put 'narrow-to-region 'disabled nil)
@@ -682,3 +718,13 @@ by using nxml's indentation rules."
      (icy-mode 1)
      (projectile-global-mode)
      )))
+
+
+
+(add-hook 'c-mode-common-hook
+          (lambda ()
+            (if (derived-mode-p 'c-mode 'c++-mode)
+                (cppcm-reload-all)
+              )))
+;; ;; OPTIONAL, some users need specify extra flags forwarded to compiler
+;; (setq cppcm-extra-preprocss-flags-from-user '("-I/usr/src/linux/include" "-DNDEBUG"))

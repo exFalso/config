@@ -1,5 +1,4 @@
-{-# LANGUAGE RankNTypes    #-}
-{-# LANGUAGE TupleSections #-}
+{-# LANGUAGE RankNTypes #-}
 import           Graphics.X11.ExtraTypes.XF86
 import           XMonad
 import           XMonad.Hooks.DynamicLog
@@ -86,6 +85,7 @@ main = do
                    }
        , modMask = mod4Mask
        , terminal = "urxvt"
+       , focusFollowsMouse = False
        } `removeKeys`
        [ (mod4Mask, xK_q)
 
@@ -100,7 +100,7 @@ main = do
        , ((mod4Mask, xK_p), spawnDelay "dmenu_run -fn 'DejaVu Sans Mono-9'")
        , ((modShift, xK_g), spawnDelay "dmake $HOME/.gamesmake")
        , ((modShift, xK_e), spawnDelay "dmake $HOME/.editmake")
-       , ((modShift, xK_d), spawnDelay "dmake $HOME/.displaymake")
+       , ((modShift, xK_d), spawnDelay "dres")
        , ((mod4Mask, xK_k), spawnDelay "dkill -15")
        , ((modShift, xK_k), spawnDelay "dkill -9")
        , ((modShift, xK_v), spawnDelay "gnome-volume-control")
@@ -210,7 +210,7 @@ wSwitch cmd = do
   flip (maybe $ return ()) (Map.lookup cmd wAssignment) $ \wid -> do
                 windows (S.greedyView wid)
                 wins <- S.allWindows <$> gets windowset
-                winpids <- mapMaybe (\(w, mp) -> (w,) <$> mp) . zip wins <$> mapM (runQuery pid) wins
+                winpids <- mapMaybe (\(w, mp) -> (,) w <$> mp) . zip wins <$> mapM (runQuery pid) wins
                 mWindows <- forM winpids $ \(w, p) -> do
                   cmd2 <- cmdLine p
                   return $ if (cmd2 == cmd)
